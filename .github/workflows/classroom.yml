@@ -1,0 +1,54 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: TEST
+      id: test
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: TEST
+        setup-command: ''
+        command: javac Array_Insertion.java && java Array_Insertion
+        input: |-
+          5
+          12
+          32
+          45
+          56
+          66
+          4
+          52
+        expected-output: |-
+          ARRAY OPERATION
+          Enter the length of the Array
+          Enter 5 element(s) to insert
+          Enter the position where you want to insert:
+          Enter the element to be inserted
+          After Inserting
+          Length of the array:6
+          arr[0]=12
+          arr[1]=32
+          arr[2]=45
+          arr[3]=52
+          arr[4]=56
+          arr[5]=66
+        comparison-method: exact
+        timeout: 10
+        max-score: 10
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        TEST_RESULTS: "${{steps.test.outputs.result}}"
+      with:
+        runners: test
