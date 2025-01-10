@@ -20,8 +20,19 @@ public class Array_Insertion {
         e=sc.nextInt();
         arrayInsert(arr,p,e,len);
     }
-    static void arrayInsert()
-    {
-    //TYPE OF CODE HERE
+    static void arrayInsert(int arr[], int p, int e, int len) {
+        // Shift elements to the right to make space for the new element
+        for (int i = len; i >= p; i--) {
+            arr[i + 1] = arr[i]; 
+        }
+
+        // Insert the new element at the specified position
+        arr[p] = e;
+
+        // Print the updated array
+        System.out.println("Array after insertion:");
+        for (int i = 0; i <= len; i++) {
+            System.out.print(arr[i] + " ");
+        }
     }
 }
